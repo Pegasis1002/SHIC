@@ -7,15 +7,19 @@ module shic_top (
   output logic [6:0]  seg,
   output logic [7:0]  an
 );
-  logic [31:0] current_pc, next_pc;
+  logic [31:0] current_pc, next_pc, inst;
 
   shic_pc pc_reg (
-    .clk(clk),
+    .clk(clk_100m),
     .rst_n(rst_n),
     .next_pc(next_pc),
     .pc(current_pc)
     );
-
+  
+    imem rom (
+      .addr(current_pc), .inst(inst)
+    );
+    
     adder_32bit pc_increament (
       .A(current_pc),
       .B(32'd4),
@@ -24,7 +28,8 @@ module shic_top (
       .Cout()
       );
 
+  
   display_controller display (
-    .clk_100m(clk_100m), .data(current_pc), .seg(seg), .an(an)
+    .clk_100m(clk_100m), .data(inst), .seg(seg), .an(an)
     );
 endmodule

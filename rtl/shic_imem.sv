@@ -2,14 +2,14 @@
 
 module imem (
   input logic [31:0] addr,
-  output logic [31:0] instruction
+  output logic [31:0] inst
 );
   logic [31:0] mem [0:63];
 
   initial begin
-    mem[0] = 32'hDEADBEEF;
+    mem[0] = 32'hCAFEBABE;
     mem[1] = 32'h00000013;
-    mem[2] = 32'hCAFEBABE;
+    mem[2] = 32'h42932829;
     mem[3] = 32'h12345678;
     mem[4] = 32'hFFFAAAAA;
 
@@ -18,5 +18,6 @@ module imem (
     end
   end
 
-  assign instruction = mem[addr[7:2]];
+  assign inst = mem[addr[7:2]];
+  //assign inst = addr;
 endmodule
